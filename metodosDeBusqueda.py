@@ -1,4 +1,9 @@
 import numpy as np
+import math
+
+def calcular_cantidad_iteraciones_biseccion(tolerancia, a, b):
+    n = np.log2(b - a) - np.log2(tolerancia)
+    return math.ceil(n)
 
 def biseccion(funcion, tolerancia, a, b):
     """
@@ -12,23 +17,18 @@ def biseccion(funcion, tolerancia, a, b):
     Devuelve:
     -El historial de todas las iteraciones hasta cumplir con la tolerancia.
     """
-    ini = a
-    fin = b
     historial = []
-    error = np.inf
-    raizAnt = np.inf
-    while error > tolerancia:
-            raizAct = (ini + fin) / 2
-            historial.append(raizAct)
-            if funcion(ini) * funcion(raizAct) < 0:
-                fin = raizAct
-            else:
-                ini = raizAct
-            error = np.abs(raizAnt - raizAct)
-            raizAnt = raizAct
+    n = calcular_cantidad_iteraciones_biseccion(tolerancia, a, b)
+    for i in range(0, n, 1):
+        raizAct = (a + b) / 2
+        historial.append(raizAct)
+        if funcion.evaluar_funcion(a) * funcion.evaluar_funcion(raizAct) < 0:
+            b = raizAct
+        else:
+            a = raizAct
     return historial
 
-def newtonRaphson(funcion, tolerancia, semilla, derivada):
+def newton_raphson(funcion, tolerancia, semilla):
     """
     Recibe:
     -funcion: funcion a la cual se le buscara la raiz.
@@ -43,7 +43,7 @@ def newtonRaphson(funcion, tolerancia, semilla, derivada):
     error = np.inf
     raizAnt = semilla
     while error > tolerancia:
-        raizAct = raizAnt - (funcion(raizAnt) / derivada(raizAnt))
+        raizAct = raizAnt - (funcion.evaluar_funcion(raizAnt) / funcion.evaluar_derivada_primera(raizAnt))
         historial.append(raizAct)
         error = np.abs(raizAnt - raizAct)
         raizAnt = raizAct
