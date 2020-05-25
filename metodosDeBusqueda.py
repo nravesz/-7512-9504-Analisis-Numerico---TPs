@@ -74,3 +74,50 @@ def puntoFijo(funcion, tolerancia, semilla, maxIteraciones):
     
     print("No converge utilizando puntoFijo")
     return None
+
+def secante(funcion, tolerancia, semilla1, semilla2):
+    """
+    Recibe:
+    -funcion: funcion f(x) a la cual se le buscara la raiz.
+    -tolerancia: el criterio de paro. Si la diferencia entre la raiz actual
+    y la anterior es esa tolerancia, se finaliza la busqueda.
+    -semilla1: donde se va a iniciar a iterar
+    -semilla2: segundo punto donde se va a iniciar a iterar
+    Devuelve:
+    -El historial de todas las iteraciones hasta cumplir con la tolerancia.
+    """
+    historial = []
+    ptoAnterior = semilla1
+    ptoAnterior2 = semilla2
+    error = np.inf
+    while error > tolerancia:
+        p = ptoAnterior + ((funcion(ptoAnterior)*(ptoAnterior-ptoAnterior2))\
+                            /(funcion(ptoAnterior)-funcion(ptoAnterior2)))
+        historial.append(p)
+        error = np.abs(p-ptoAnterior)
+        ptoAnterior2 = ptoAnterior
+        ptoAnterior = p
+    return historial
+
+def newtonRaphsonMod(funcion, tolerancia, semilla, derivada1, derivada2):
+    """
+    Recibe:
+    -funcion: funcion a la cual se le buscara la raiz.
+    -tolerancia: el criterio de paro. Si la diferencia entre la raiz actual
+    y la anterior es esa tolerancia, se finaliza la busqueda.
+    -semilla: donde se va a iniciar a iterar
+    -derivada1: derivada primera de la funcion a la cual se le quiere buscar la raiz.
+    -derivada2: derivada segunda de la funcion a la cual se le quiere buscar la raiz.
+    Devuelve:
+    -El historial de todas las iteraciones hasta cumplir con la tolerancia.
+    """
+    historial = []
+    error = np.inf
+    raizAnt = semilla
+    while error > tolerancia:
+        raizAct = raizAnt - (funcion(raizAnt) * derivada1(raizAnt)\
+                             /(((derivada1(raizAnt))**2)-funcion(raizAnt)*derivada2(raizAnt)))
+        historial.append(raizAct)
+        error = np.abs(raizAnt - raizAct)
+        raizAnt = raizAct
+    return historial
