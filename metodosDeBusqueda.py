@@ -49,32 +49,6 @@ def newtonRaphson(funcion, tolerancia, semilla, derivada):
         raizAnt = raizAct
     return historial
 
-def puntoFijo(funcion, tolerancia, semilla, maxIteraciones):
-    """
-    Recibe:
-    -funcion: funcion g(x) a la cual se le buscara la raiz.
-    -tolerancia: el criterio de paro. Si la diferencia entre la raiz actual
-    y la anterior es esa tolerancia, se finaliza la busqueda.
-    -semilla: donde se va a iniciar a iterar
-    -maxIteraciones: cantidad maxima de iteraciones que se va a ejecutar el algoritmo.    
-    Devuelve:
-    -El historial de todas las iteraciones hasta cumplir con la tolerancia.
-    """
-    historial = []
-    ptoAnterior = semilla
-    i = 0
-    while i < maxIteraciones:
-        p = funcion(ptoAnterior)
-        historial[i] = (i, p)
-        if np.abs(p-ptoAnterior) < tolerancia:
-            return historial
-        
-        ptoAnterior = p
-        i = i + 1
-    
-    print("No converge utilizando puntoFijo")
-    return None
-
 def secante(funcion, tolerancia, semilla1, semilla2):
     """
     Recibe:
