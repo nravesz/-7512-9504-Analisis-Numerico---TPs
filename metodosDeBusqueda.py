@@ -65,7 +65,7 @@ def secante(funcion, tolerancia, semilla1, semilla2):
     ptoAnterior2 = semilla2
     error = np.inf
     while error > tolerancia:
-        p = ptoAnterior + ((funcion(ptoAnterior)*(ptoAnterior-ptoAnterior2))\
+        p = ptoAnterior - ((funcion(ptoAnterior)*(ptoAnterior-ptoAnterior2))\
                             /(funcion(ptoAnterior)-funcion(ptoAnterior2)))
         historial.append(p)
         error = np.abs(p-ptoAnterior)
