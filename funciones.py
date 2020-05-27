@@ -15,6 +15,10 @@ class Funcion(metaclass=ABCMeta):
     @abstractmethod
     def evaluar_derivada_segunda(self, x):
         pass
+    
+    @abstractmethod
+    def imprimir_nombre(self):
+        pass
 
 class F1(Funcion):
     
@@ -26,7 +30,10 @@ class F1(Funcion):
     
     def evaluar_derivada_segunda(self, x):
         return 2
-
+    
+    def imprimir_nombre(self):
+        return "f1(x)"
+    
 class F2(Funcion):
     
     def evaluar_funcion(self, x):
@@ -37,6 +44,9 @@ class F2(Funcion):
     
     def evaluar_derivada_segunda(self, x):
         return 20 * x**3 - 79.2 * x**2 +30.72 * x + 42.624
+    
+    def imprimir_nombre(self):
+        return "f2(x)"
 
 class F3(Funcion):
     
@@ -48,8 +58,11 @@ class F3(Funcion):
     
     def evaluar_derivada_segunda(self, x):
         return (-24 * x + (x - 1.5) * (8 *x - 12)**2 + 36) * np.exp(-4 * (x - 1.5)**2)
+    
+    def imprimir_nombre(self):
+        return "f3(x)"
 
-def imprimirFuncion(funcion):
+def imprimir_funcion(funcion):
     nroResolucion = 250
     inicioIntervalo = 0
     finIntervalo = 2
@@ -59,13 +72,13 @@ def imprimirFuncion(funcion):
     vector_x = np.linspace(inicioIntervalo, finIntervalo, nroResolucion)
     i = 0
     for x in vector_x:
-        valores[i] = (x,funcion(x))
+        valores[i] = (x,funcion.evaluar_funcion(x))
         i = i+1
     
     plt.figure()
-    plt.plot(valores[:,0],valores[:,1], '-',lw=2,label='f(x)')    
-    plt.title('f(x)')
-    plt.legend(loc='best')
+    plt.plot(valores[:,0],valores[:,1], '-',lw=2,label=funcion.imprimir_nombre(), color = 'red')    
+    plt.title(funcion.imprimir_nombre())
+#    plt.legend(loc='best')
     plt.grid(True)
     ax = plt.gca()  # gca stands for 'get current axis'
     ax.spines['right'].set_color('none')
