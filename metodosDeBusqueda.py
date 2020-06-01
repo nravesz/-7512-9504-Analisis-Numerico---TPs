@@ -17,6 +17,7 @@ def biseccion(funcion, tolerancia, a, b):
     Devuelve:
     -El historial de todas las iteraciones hasta cumplir con la tolerancia.
     """
+    errores = []
     historial = []
     n = calcular_cantidad_iteraciones_biseccion(tolerancia, a, b)
     for i in range(0, n, 1):
@@ -26,7 +27,8 @@ def biseccion(funcion, tolerancia, a, b):
             b = raizAct
         else:
             a = raizAct
-    return historial
+        errores.append((b-a)/2)
+    return historial, errores
 
 def newton_raphson(funcion, tolerancia, semilla):
     """
@@ -41,37 +43,55 @@ def newton_raphson(funcion, tolerancia, semilla):
     """
     historial = []
     error = np.inf
+    errores = []
     raizAnt = semilla
     while error > tolerancia:
+        if not funcion.evaluar_derivada_primera(raizAnt):
+        	break
         raizAct = raizAnt - (funcion.evaluar_funcion(raizAnt) / funcion.evaluar_derivada_primera(raizAnt))
         historial.append(raizAct)
         error = np.abs(raizAnt - raizAct)
+        if error:
+        	errores.append(error)
+        else:
+        	print(funcion.evaluar_funcion(raizAct))
+        	print(raizAct)
+        	errores.append(1e-13)
         raizAnt = raizAct
-    return historial
+    return historial, errores
 
 def secante(funcion, tolerancia, semilla1, semilla2):
-    """
-    Recibe:
-    -funcion: funcion f(x) a la cual se le buscara la raiz.
-    -tolerancia: el criterio de paro. Si la diferencia entre la raiz actual.
-    y la anterior es esa tolerancia, se finaliza la busqueda.
-    -semilla1: punto donde se va a iniciar a iterar.
-    -semilla2: segundo punto donde se va a iniciar a iterar.
-    Devuelve:
-    -El historial de todas las iteraciones hasta cumplir con la tolerancia.
-    """
-    historial = []
-    ptoAnterior = semilla1
-    ptoAnterior2 = semilla2
-    error = np.inf
-    while error > tolerancia:
-        p = ptoAnterior - ((funcion.evaluar_funcion(ptoAnterior)*(ptoAnterior-ptoAnterior2))\
-                            /(funcion.evaluar_funcion(ptoAnterior)-funcion.evaluar_funcion(ptoAnterior2)))
-        historial.append(p)
-        error = np.abs(p-ptoAnterior)
-        ptoAnterior2 = ptoAnterior
-        ptoAnterior = p
-    return historial
+	"""
+	Recibe:
+	-funcion: funcion f(x) a la cual se le buscara la raiz.
+	-tolerancia: el criterio de paro. Si la diferencia entre la raiz actual.
+	y la anterior es esa tolerancia, se finaliza la busqueda.
+	-semilla1: punto donde se va a iniciar a iterar.
+	-semilla2: segundo punto donde se va a iniciar a iterar.
+	Devuelve:
+	-El historial de todas las iteraciones hasta cumplir con la tolerancia.
+	"""
+	historial = []
+	ptoAnterior = semilla1
+	ptoAnterior2 = semilla2
+	error = np.inf
+	errores = []
+	while error > tolerancia:
+		try:
+			p = ptoAnterior - ((funcion.evaluar_funcion(ptoAnterior)*(ptoAnterior-ptoAnterior2))\
+				/(funcion.evaluar_funcion(ptoAnterior)-funcion.evaluar_funcion(ptoAnterior2)))
+		except ZeroDivisionError:
+			break
+		historial.append(p)
+		error = np.abs(p-ptoAnterior)
+		if error:
+			errores.append(error)
+		else:
+			print(p)
+			errores.append(1e-13)
+		ptoAnterior2 = ptoAnterior
+		ptoAnterior = p
+	return historial, errores
 
 def newtonRaphsonMod(funcion, tolerancia, semilla):
     """
@@ -85,15 +105,22 @@ def newtonRaphsonMod(funcion, tolerancia, semilla):
     """
     historial = []
     error = np.inf
+    errores = []
     raizAnt = semilla
     while error > tolerancia:
-        raizAct = raizAnt - (funcion.evaluar_funcion(raizAnt) * funcion.evaluar_derivada_primera(raizAnt)\
-                             /(((funcion.evaluar_derivada_primera(raizAnt))**2) - funcion.evaluar_funcion(raizAnt)\
-                             * funcion.evaluar_derivada_segunda(raizAnt)))
+        if not (funcion.evaluar_derivada_primera(raizAnt)**2) - funcion.evaluar_funcion(raizAnt)* funcion.evaluar_derivada_segunda(raizAnt):
+            break
+        raizAct = raizAnt - funcion.evaluar_funcion(raizAnt) * funcion.evaluar_derivada_primera(raizAnt)\
+                             /((funcion.evaluar_derivada_primera(raizAnt)**2) - funcion.evaluar_funcion(raizAnt)\
+                             * funcion.evaluar_derivada_segunda(raizAnt))
         historial.append(raizAct)
         error = np.abs(raizAnt - raizAct)
+        if error:
+            errores.append(error)
+        else:
+            errores.append(1e-13)
         raizAnt = raizAct
-    return historial
+    return historial, errores
 
 def estimarOrdenConvergencia(historialRaices):
     nIteraciones = len(historialRaices)

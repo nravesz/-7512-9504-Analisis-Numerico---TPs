@@ -1,20 +1,34 @@
 import pandas as pd
-import metodosDeBusqueda as metodo
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
+from metodosDeBusqueda import biseccion, newton_raphson, newtonRaphsonMod, secante
 
-def aplicar_metodos(funcion, tolerancia, rango, semilla):
-	a, b = rango
+def log(errores):
+	return list(map(np.log10, errores))
 
-	historial1 = metodo.biseccion(funcion, tolerancia, a, b)
-	
-	historial2 = metodo.newton_raphson(funcion, tolerancia, semilla)
+def graficar_errores(funcion, tolerancia, semilla_nr, inicio_secante, fin_secante):
+	'''Para F3 recomiendo semilla 1.4 para NR y intervalos 1.1-2.0 para secante'''
+	historial, errores = biseccion(funcion, tolerancia, 0.0, 2.0)
+	dfs=(crear_df_iteraciones(historial, log(errores), "biseccion"))
+	historial, errores = newton_raphson(funcion, tolerancia, semilla_nr)
+	dfs = dfs.append(crear_df_iteraciones(historial, log(errores), "NR"))
+	historial, errores = newtonRaphsonMod(funcion, tolerancia, semilla_nr)
+	dfs = dfs.append(crear_df_iteraciones(historial, log(errores), "NRM"))
+	historial, errores = secante(funcion, tolerancia, inicio_secante, fin_secante)
+	dfs = dfs.append(crear_df_iteraciones(historial, log(errores), "secante"))
+	sns.lineplot(data = dfs, x="iteracion", y= "error", hue = "metodo")
+	plt.title("Error segun cantidad de iteraciones para F3")
+	plt.xlabel("Cantidad de iteraciones")
+	plt.ylabel("Valor del error (logscale)")
+	plt.show()
 
-	historial3 = metodo.secante(funcion, tolerancia, a, b)
-	
-	historial4 = metodo.newtonRaphsonMod(funcion, tolerancia, semilla)
-	
-	return historial1, historial2, historial3, historial4
+def crear_df_iteraciones(historial, errores, nombre):
+	'''Nombre es el metodo usado '''
+	df = pd.DataFrame({"raiz":historial, "error":errores, "metodo":[nombre for _ in range(len(historial))]})
+	df.index.name = 'iteracion'
+	df.index = df.index + 1
+	return df.reset_index()
 
 def imprimir_funcion(funcion):
 	nroResolucion = 250
