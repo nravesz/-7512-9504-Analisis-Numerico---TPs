@@ -54,8 +54,6 @@ def newton_raphson(funcion, tolerancia, semilla):
         if error:
         	errores.append(error)
         else:
-        	print(funcion.evaluar_funcion(raizAct))
-        	print(raizAct)
         	errores.append(1e-13)
         raizAnt = raizAct
     return historial, errores
@@ -87,7 +85,6 @@ def secante(funcion, tolerancia, semilla1, semilla2):
 		if error:
 			errores.append(error)
 		else:
-			print(p)
 			errores.append(1e-13)
 		ptoAnterior2 = ptoAnterior
 		ptoAnterior = p
