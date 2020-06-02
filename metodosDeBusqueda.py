@@ -25,6 +25,9 @@ def biseccion(funcion, tolerancia, a, b):
         historial.append(raizAct)
         if funcion.evaluar_funcion(a) * funcion.evaluar_funcion(raizAct) < 0:
             b = raizAct
+        elif funcion.evaluar_funcion(a) * funcion.evaluar_funcion(raizAct) == 0:
+        	errores.append(tolerancia)
+        	break
         else:
             a = raizAct
         errores.append((b-a)/2)
@@ -54,7 +57,7 @@ def newton_raphson(funcion, tolerancia, semilla):
         if error:
         	errores.append(error)
         else:
-        	errores.append(1e-13)
+        	errores.append(tolerancia)
         raizAnt = raizAct
     return historial, errores
 
@@ -85,7 +88,7 @@ def secante(funcion, tolerancia, semilla1, semilla2):
 		if error:
 			errores.append(error)
 		else:
-			errores.append(1e-13)
+			errores.append(tolerancia)
 		ptoAnterior2 = ptoAnterior
 		ptoAnterior = p
 	return historial, errores
@@ -115,7 +118,7 @@ def newtonRaphsonMod(funcion, tolerancia, semilla):
         if error:
             errores.append(error)
         else:
-            errores.append(1e-13)
+            errores.append(tolerancia)
         raizAnt = raizAct
     return historial, errores
 
