@@ -34,4 +34,7 @@ def main():
 			graficar_errores(funcion, tolerancia_alta, 1.0, 0.0, 2.0)
 			escribir_raices(conseguir_raices(funcion, tolerancia_baja, 1.0, 0.0, 2.0), tolerancia_baja, nombre_funcion)
 			graficar_errores(funcion, tolerancia_baja, 1.0, 0.0, 2.0)
+		
+		obtener_graficos_orden_de_convergencia(funcion)
+
 main()

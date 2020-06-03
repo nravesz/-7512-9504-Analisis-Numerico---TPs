@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import optimize
 from metodosDeBusqueda import biseccion, newton_raphson, newtonRaphsonMod, secante
+import metodosDeBusqueda as metodo
 
 def conseguir_raices(funcion, tolerancia, semilla_nr, inicio_secante, fin_secante):
 	raices = []
@@ -78,8 +79,6 @@ def graficar_orden_de_convergencia(funcion, historiales):
 	plt.figure()
 	for nombre_metodo, historial in historiales:
 		orden_convergencia = metodo.estimarOrdenConvergencia(historial)
-		print(nombre_metodo)
-		print(orden_convergencia)
 		plt.plot(list(range(len(orden_convergencia))), orden_convergencia, '-',\
 	   lw = 2, label = nombre_metodo)
 	plt.xlabel('Paso [n]')
@@ -87,5 +86,18 @@ def graficar_orden_de_convergencia(funcion, historiales):
 	plt.legend(loc='best')
 	plt.grid(True)
 	plt.title('Orden de convergencia para la funcion {}'.format(funcion.get_denominacion()))
+	plt.savefig(f"./figuras/{funcion.denominacion} orden de convergencia")
 	plt.show()
 	
+def obtener_graficos_orden_de_convergencia(funcion):
+	historial_biseccion, _ = metodo.biseccion(funcion, 1e-13, 0, 2)
+	historial_nr, _ = metodo.newton_raphson(funcion, 1e-13, 1.4)
+	historial_secante, _ = metodo.secante(funcion, 1e-13, 1.1, 2)
+	historial_nrmod, _ = metodo.newtonRaphsonMod(funcion, 1e-13, 1.4)
+	
+	historiales = [('biseccion', historial_biseccion),\
+				('nr', historial_nr),\
+				('secante', historial_secante),\
+				('nrMod', historial_nrmod)]
+	
+	graficar_orden_de_convergencia(funcion, historiales)
