@@ -70,3 +70,22 @@ def graficar_funcion(funcion):
 	ax.yaxis.set_ticks_position('left')
 	ax.spines['left'].set_position(('data',0))
 	plt.savefig(f"./figuras/{funcion.denominacion}")
+	
+def graficar_orden_de_convergencia(funcion, historiales):
+	'''Recibe la funcion matematica y una lista de tuplas. Las tuplas tienen la forma
+	(nombre del metodo, lista de raices)
+	Crea un grafico donde se compara el orden de convergencia para los metodos de la lista.'''
+	plt.figure()
+	for nombre_metodo, historial in historiales:
+		orden_convergencia = metodo.estimarOrdenConvergencia(historial)
+		print(nombre_metodo)
+		print(orden_convergencia)
+		plt.plot(list(range(len(orden_convergencia))), orden_convergencia, '-',\
+	   lw = 2, label = nombre_metodo)
+	plt.xlabel('Paso [n]')
+	plt.ylabel('alfa')
+	plt.legend(loc='best')
+	plt.grid(True)
+	plt.title('Orden de convergencia para la funcion {}'.format(funcion.get_denominacion()))
+	plt.show()
+	
