@@ -123,15 +123,20 @@ def newtonRaphsonMod(funcion, tolerancia, semilla):
     return historial, errores
 
 def estimarOrdenConvergencia(historialRaices):
-    nIteraciones = len(historialRaices)
-    alfa = []
-    
-    for n in range(2,nIteraciones-1):
-        e_n_mas_1 = historialRaices[n+1]-historialRaices[n]
-        e_n = historialRaices[n] - historialRaices[n-1]
-        e_n_menos_1 = historialRaices[n-1]-historialRaices[n-2]
-        
-        alfa.append(np.log10(np.abs(e_n_mas_1/e_n))/ \
-        np.log10(np.abs(e_n/e_n_menos_1)))
-    
-    return alfa
+	nIteraciones = len(historialRaices)
+	alfa = []
+	
+	for n in range(2,nIteraciones-1):
+		e_n_mas_1 = historialRaices[n+1]-historialRaices[n]
+		e_n = historialRaices[n] - historialRaices[n-1]
+		e_n_menos_1 = historialRaices[n-1]-historialRaices[n-2]
+	
+		if ((np.abs(np.log10(np.abs(e_n/e_n_menos_1))) < 1e-13) or \
+	  (np.abs(e_n) < 1e-13) or \
+	  (np.abs(e_n_menos_1) < 1e-13) or \
+	  (np.abs(e_n_mas_1) < 1e-13)):
+			continue
+		else:
+			alfa.append(np.log10(np.abs(e_n_mas_1/e_n))/np.log10(np.abs(e_n/e_n_menos_1)))
+	
+	return alfa
