@@ -41,8 +41,8 @@ f1 = Funcion(
 
 
 f2 = Funcion(
-            "m*g*l*cos(y)+0.5*m*(l*u)**2",
-            lambda y,u: m*g*l*np.cos(y)+0.5*m*(l*u)**2,
+            "m*g*l*(1-cos(y))+0.5*m*(l*u)**2",
+            lambda y,u: m*g*l*(1-np.cos(y))+0.5*m*(l*u)**2,
             b,
             m,
             g,

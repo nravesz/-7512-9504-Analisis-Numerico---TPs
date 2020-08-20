@@ -26,10 +26,10 @@ def crear_grafico(resultados_RK1, resultados_RK4):
 	rk1_y, rk1_u, rk1_e, rk1_t = separar_en_listas(resultados_RK1)
 	rk4_y, rk4_u, rk4_e, rk4_t = separar_en_listas(resultados_RK4)
 	
-	fig, ((ax1, ax2), (ax3, ax4), (ax5,ax6)) = plt.subplots(3, 2, sharey=True)
+	fig, ((ax1, ax2), (ax3, ax4), (ax5,ax6)) = plt.subplots(3, 2, sharey=False)
 	
 	# RK1: Pos vs t
-	ax1.plot(rk1_t, rk1_y)
+	ax1.plot(rk1_t, rk1_y, 'tab:orange')
 	ax1.set_ylabel('Pos[rad]')
 	ax1.title.set_text('RK1')
 	ax1.grid()
@@ -46,13 +46,13 @@ def crear_grafico(resultados_RK1, resultados_RK4):
 	ax3.grid()
 	
 	# RK4: Vel vs t
-	ax4.plot(rk4_t, rk4_u, 'tab:red')
+	ax4.plot(rk4_t, rk4_u, 'tab:green')
 #	ax4.set_xlabel('Tiempo[s]')
 	ax4.grid()
 	
 	# RK1: Energia vs t
 
-	ax5.plot(rk1_t, rk1_e, 'tab:green')
+	ax5.plot(rk1_t, rk1_e, 'tab:red')
 	ax5.set_xlabel('Tiempo[s]')
 	ax5.set_ylabel('Energia')
 	ax5.grid()
