@@ -1,14 +1,17 @@
 from funciones import f1, f2
 import numpy as np
 def metodo_euler(funcion ,y ,u , paso):
+    y = np.float(y)
+    u = np.float(u)
+    paso = np.float(paso)
     y1 = y + paso * u
     u1 = u + paso * funcion.evaluar_expresion(y, u)
     return y1, u1
 
 def realizar_metodo(metodo, funcion, inicio_intervalo, fin_intervalo, y, u, paso):
-    total_pasos = rango_maximo/paso
+    total_pasos = fin_intervalo/paso
     valores = []
-    tiempo = 0
+    tiempo = 0.0
     e = f2.evaluar_expresion(y,u)
     valores.append((y,u,e,tiempo))
 
@@ -33,10 +36,4 @@ def runge_kutta4(funcion, y, u, paso):
     u1 = u + (paso/6) * (k1 + 2*k2 + 2*k3 + k4)
     return y1, u1
 
-y= np.float(0.523599)
-u= np.float(0)
-paso = 0.02
-rango_maximo = 20
-valores_euler = realizar_metodo(metodo_euler,f1, 0, rango_maximo, y, u, paso)
-valores_rk4 = realizar_metodo(runge_kutta4,f1, 0, rango_maximo, y, u, paso)
 

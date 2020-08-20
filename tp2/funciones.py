@@ -1,5 +1,4 @@
-import parser
-from math import cos
+import numpy as np
 class Funcion():
 
     def __init__(self, denominacion, expresion, b, m, g, l):
@@ -23,30 +22,29 @@ class Funcion():
         return self.expresion
 
     def evaluar_expresion(self, valor_y, valor_u):
-        code = parser.expr(self.expresion).compile()
-        y= float(valor_y)
-        u = float(valor_u)
-        b=self.b
-        m = self.m
-        g = self.g
-        l = self.l
-        return eval(code)
+        return self.expresion(valor_y, valor_u)
+
+b = 0
+m = 1
+g = 9.81
+l = 1
 
 f1 = Funcion(
-            "f1",
             "-b/m * u - g/l * y ",
-            0,
-            1,
-            9.81,
-            1
+            lambda y,u: -(b/m) * u - (g/l) * y ,
+            b,
+            m,
+            g,
+            l
             )
+
+
 
 f2 = Funcion(
-            "E",
             "m*g*l*cos(y)+0.5*m*(l*u)**2",
-            0,
-            1,
-            9.81,
-            1
+            lambda y,u: m*g*l*np.cos(y)+0.5*m*(l*u)**2,
+            b,
+            m,
+            g,
+            l
             )
-
