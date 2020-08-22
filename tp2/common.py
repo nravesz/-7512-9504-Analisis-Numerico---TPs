@@ -30,15 +30,16 @@ def crear_grafico_overlap(resultados_RK1, resultados_RK4, nombre):
 	rk4_y, rk4_u, rk4_e, rk4_t = separar_en_listas(resultados_RK4)
 	
 	fig, ((ax1, ax2)) = plt.subplots(2, 1, sharey=True)
-	fig.suptitle("Con amortiguado overlap (h = 0.02)")
+	fig.suptitle("Sin amortiguado overlap (h = 0.0001)")
 
 	
-	ax1.plot(rk1_t, rk1_y, 'tab:blue')
+	ax1.plot(rk1_t, rk1_y, 'tab:blue', label = 'RK1')
 	ax1.set_ylabel('Pos[rad]')
 	ax1.title.set_text('RK1 vs RK4')
 	ax1.grid()
 	
-	ax1.plot(rk4_t, rk4_y, 'tab:orange')
+	ax1.plot(rk4_t, rk4_y, 'tab:orange', label = 'RK4')
+	ax1.legend()
 
 	
 	ax2.plot(rk1_t, rk1_u, 'tab:blue')
