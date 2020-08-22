@@ -30,7 +30,7 @@ def crear_grafico_overlap(resultados_RK1, resultados_RK4):
 	rk4_y, rk4_u, rk4_e, rk4_t = separar_en_listas(resultados_RK4)
 	
 	fig, ((ax1, ax2)) = plt.subplots(2, 1, sharey=True)
-	fig.suptitle("Sin amortiguado overlap (h = 0.0001)")
+	fig.suptitle("Con amortiguado overlap (h = 0.02)")
 
 	
 	ax1.plot(rk1_t, rk1_y, 'tab:blue')
@@ -74,7 +74,7 @@ def crear_grafico(resultados_RK1, resultados_RK4):
 	rk4_y, rk4_u, rk4_e, rk4_t = separar_en_listas(resultados_RK4)
 	
 	fig, ((ax1, ax2), (ax3, ax4), (ax5,ax6)) = plt.subplots(3, 2, sharey=True)
-	fig.suptitle("Sin amortiguado (h = 0.02)")
+	fig.suptitle("Con amortiguado (h = 0.02)")
 
 	
 	# RK1: Pos vs t
