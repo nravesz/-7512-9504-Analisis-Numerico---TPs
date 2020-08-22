@@ -19,7 +19,7 @@ def separar_en_listas(lista):
 	return y_lista, u_lista, e_lista, t_lista
 
 
-def crear_grafico_overlap(resultados_RK1, resultados_RK4):
+def crear_grafico_overlap(resultados_RK1, resultados_RK4, nombre):
 	"""Recibe una lista de tuplas con los resultados de los metodos
 	   RK1 (Euler) y RK4. Crea un grafico con una columna correspondiente
 	   a los graficos de RK1 y otra columna para los graficos de RK4.
@@ -46,7 +46,7 @@ def crear_grafico_overlap(resultados_RK1, resultados_RK4):
 	ax2.grid()
 	
 	ax2.plot(rk4_t, rk4_u, 'tab:orange')
-	plt.savefig("./figs/Caso con amortiguado overlap.png")
+	plt.savefig(f"./figs/{nombre}")
 
 
 def crear_tablas(resultados_RK1, resultados_RK4):
@@ -63,7 +63,7 @@ def crear_tablas(resultados_RK1, resultados_RK4):
 
 
 
-def crear_grafico(resultados_RK1, resultados_RK4):
+def crear_grafico(resultados_RK1, resultados_RK4, nombre):
 	"""Recibe una lista de tuplas con los resultados de los metodos
 	   RK1 (Euler) y RK4. Crea un grafico con una columna correspondiente
 	   a los graficos de RK1 y otra columna para los graficos de RK4.
@@ -111,4 +111,4 @@ def crear_grafico(resultados_RK1, resultados_RK4):
 	ax6.plot(rk4_t, rk4_e, 'tab:red')
 	ax6.set_xlabel('Tiempo[s]')
 	ax6.grid()
-	plt.savefig("./figs/Caso con amortiguado.png")
+	plt.savefig(f"./figs/{nombre}")
