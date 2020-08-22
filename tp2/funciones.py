@@ -24,7 +24,7 @@ class Funcion():
     def evaluar_expresion(self, valor_y, valor_u):
         return self.expresion(valor_y, valor_u)
 
-b = 0
+b = 0.5 # cambiar para sin o con amortiguado
 m = 1
 g = 9.81
 l = 1
